@@ -1,7 +1,14 @@
 cmake_minimum_required(VERSION 3.14)
-project(ktnlibc C)
+project(ktnlibc C
+    VERSION 1.0.2
+    DESCRIPTION "KTN C Library"
+    LANGUAGES C
+)
 
 set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
@@ -43,25 +50,62 @@ set(SOURCE_FILES
     src/vector_stack.c
 )
 
+# Header Files
+set(HEADER_FILES
+    include/type.h
+    include/array_set.h
+    include/hashmap.h
+    include/vector_list.h
+    include/vector_stack.h
+)
 
-add_library(ktnlibc ${SOURCE_FILE})
-
-add_library(ktnlibc::ktnlibc ALIAS ktnlibc)
+add_library(ktnlibc ${SOURCE_FILES} ${HEADER_FILES})
 
 target_include_directories(ktnlibc
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
-    PRIVATE
-        src
 )
 
 target_compile_features(ktnlibc PUBLIC c_std_23)
 
-add_library(ktnlibc ${SOURCE_FILES})
-target_include_directories(ktnlibc PUBLIC include)
-target_include_directories(ktnlibc PRIVATE src)
+include(GNUInstallDirs)
 
+install(TARGETS ktnlibc
+    EXPORT ktnlibcTargets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(DIRECTORY include/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(EXPORT ktnlibcTargets
+    FILE ktnlibcTargets.cmake
+    NAMESPACE ktnlibc::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ktnlibc
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ktnlibcConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ktnlibcConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/ktnlibcConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ktnlibc
+)
+
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/ktnlibcConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/ktnlibcConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ktnlibc
+)
 
 if (KTNLIBC_IS_MAIN_PROJECT)
     # Test Files
@@ -80,14 +124,6 @@ if (KTNLIBC_IS_MAIN_PROJECT)
     enable_testing()
     add_test(NAME ktnlibc_test COMMAND test_run)
 
-    add_custom_target(test
-        COMMAND test_run
-        DEPENDS test_run
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-endif()
-
-if (KTNLIBC_IS_MAIN_PROJECT)
     add_custom_command(
         TARGET ktnlibc POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E create_symlink
