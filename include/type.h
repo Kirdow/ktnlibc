@@ -1,5 +1,5 @@
-#ifndef _CSTACK_TYPE_H
-#define _CSTACK_TYPE_H
+#ifndef _KTNLIBC_TYPE_H
+#define _KTNLIBC_TYPE_H
 
 #include <stdint.h>
 
@@ -23,4 +23,4 @@ typedef char bool_t;
 #endif
 #define NULL ((void*)0)
 
-#endif // _CSTACK_TYPE_H
+#endif // _KTNLIBC_TYPE_H

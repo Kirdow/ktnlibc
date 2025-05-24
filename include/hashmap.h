@@ -1,5 +1,5 @@
-#ifndef _CSTACK_HASHMAP_H
-#define _CSTACK_HASHMAP_H
+#ifndef _KTNLIBC_HASHMAP_H
+#define _KTNLIBC_HASHMAP_H
 
 #include "type.h"
 
@@ -20,4 +20,4 @@ bool_t hashmap_put(struct hashmap_t *hashmap, const char *key, const char *value
 const char * hashmap_get(struct hashmap_t *hashmap, const char *key);
 bool_t hashmap_remove(struct hashmap_t *hashmap, const char *key);
 
-#endif //_CSTACK_HASHMAP_H
+#endif //_KTNLIBC_HASHMAP_H

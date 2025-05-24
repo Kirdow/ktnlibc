@@ -1,5 +1,5 @@
-#ifndef _CSTACK_ARRAY_SET_H
-#define _CSTACK_ARRAY_SET_H
+#ifndef _KTNLIBC_ARRAY_SET_H
+#define _KTNLIBC_ARRAY_SET_H
 
 #include "type.h"
 
@@ -19,4 +19,4 @@ bool_t array_set_clear(struct array_set_t *set);
 bool_t _array_set_dump(struct array_set_t *set);
 
 
-#endif // _CSTACK_ARRAY_SET_H
+#endif // _KTNLIBC_ARRAY_SET_H

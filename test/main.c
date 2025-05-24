@@ -35,7 +35,7 @@ const char* get_test_name(const char* input)
     return s_buffer;
 }
 
-#define CSTACK_TEST(FN) do {\
+#define KTNLIBC_TEST(FN) do {\
     const char *fn_name = get_test_name(#FN);\
     UnityBegin(fn_name);\
     FN();\
@@ -55,10 +55,10 @@ int main()
 {
     int result;
 
-    CSTACK_TEST(_test_array_set);
-    CSTACK_TEST(_test_vector_list);
-    CSTACK_TEST(_test_vector_stack);
-    CSTACK_TEST(_test_hashmap);
+    KTNLIBC_TEST(_test_array_set);
+    KTNLIBC_TEST(_test_vector_list);
+    KTNLIBC_TEST(_test_vector_stack);
+    KTNLIBC_TEST(_test_hashmap);
 
     return result;
 }

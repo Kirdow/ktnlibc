@@ -1,5 +1,5 @@
-#ifndef _CSTACK_TEST_H
-#define _CSTACK_TEST_H
+#ifndef _KTNLIBC_TEST_H
+#define _KTNLIBC_TEST_H
 
 #define UNITY_OUTPUT_COLOR
 

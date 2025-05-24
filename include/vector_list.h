@@ -1,5 +1,5 @@
-#ifndef _CSTACK_VECTOR_LIST_H
-#define _CSTACK_VECTOR_LIST_H
+#ifndef _KTNLIBC_VECTOR_LIST_H
+#define _KTNLIBC_VECTOR_LIST_H
 
 #include "type.h"
 
@@ -26,4 +26,4 @@ bool_t vector_clear(struct vector_t *vec);
 bool_t vector_at(struct vector_t *vec, usize_t index, usize_t *item);
 void * vector_ptr_at(struct vector_t *vec, usize_t index);
  
-#endif //_CSTACK_VECTOR_LIST_H
+#endif //_KTNLIBC_VECTOR_LIST_H

@@ -1,5 +1,5 @@
-#ifndef _CSTACK_VECTOR_STACK_H
-#define _CSTACK_VECTOR_STACK_H
+#ifndef _KTNLIBC_VECTOR_STACK_H
+#define _KTNLIBC_VECTOR_STACK_H
 
 #include "type.h"
 #include "vector_list.h"
@@ -19,4 +19,4 @@ bool_t stack_try_pop(struct stack_t *stack, usize_t *item);
 bool_t stack_try_peek(struct stack_t *stack, usize_t *item);
 usize_t stack_size(struct stack_t *stack);
 
-#endif //_CSTACK_VECTOR_STACK_H
+#endif //_KTNLIBC_VECTOR_STACK_H
