@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.21)
 project(ktnlibc C
-    VERSION 1.0.2
+    VERSION 1.0.3
     DESCRIPTION "KTN C Library"
     LANGUAGES C
 )
@@ -14,11 +14,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set(KTNLIBC_IS_MAIN_PROJECT TRUE)
+    set(KTNLIBC_TESTS TRUE)
 else()
     set(KTNLIBC_IS_MAIN_PROJECT FALSE)
+    set(KTNLIBC_TESTS FALSE)
 endif()
 
-if (KTNLIBC_IS_MAIN_PROJECT)
+if (KTNLIBC_TESTS)
     set(UNITY_VERSION 2.5.2)
     find_package(unity ${UNITY_VERSION} QUIET)
     if (NOT unity_FOUND)
@@ -107,7 +109,7 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ktnlibc
 )
 
-if (KTNLIBC_IS_MAIN_PROJECT)
+if (KTNLIBC_TESTS)
     # Test Files
     set(TEST_SOURCES
         test/main.c
@@ -123,7 +125,9 @@ if (KTNLIBC_IS_MAIN_PROJECT)
 
     enable_testing()
     add_test(NAME ktnlibc_test COMMAND test_run)
+endif()
 
+if (KTNLIBC_IS_MAIN_PROJECT)
     add_custom_command(
         TARGET ktnlibc POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E create_symlink
