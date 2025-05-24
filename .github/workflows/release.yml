@@ -24,8 +24,8 @@ jobs:
         run: |
           mkdir -p publish/lib
           cp ./build/libktnlibc.a ./publish/lib/ktnlibc.a
-          cp ./include ./publish/
-          cp ./src ./publish/
+          cp -r ./include ./publish/
+          cp -r ./src ./publish/
           cp ./LICENSE ./publish/
           cp ./README.md ./publish/
 
