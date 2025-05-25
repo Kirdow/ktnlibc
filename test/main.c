@@ -3,6 +3,8 @@
 #include "test_vector_list.h"
 #include "test_vector_stack.h"
 #include "test_hashmap.h"
+#include "test_generic_hashmap.h"
+#include "test_hashset.h"
 #include "type.h"
 
 #include <string.h>
@@ -59,6 +61,8 @@ int main()
     KTNLIBC_TEST(_test_vector_list);
     KTNLIBC_TEST(_test_vector_stack);
     KTNLIBC_TEST(_test_hashmap);
+    KTNLIBC_TEST(_test_generic_hashmap);
+    KTNLIBC_TEST(_test_hashset);
 
     return result;
 }

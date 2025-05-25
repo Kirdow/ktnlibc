@@ -48,6 +48,7 @@ endif()
 set(SOURCE_FILES 
     src/array_set.c
     src/hashmap.c
+    src/hashset.c
     src/vector_list.c
     src/vector_stack.c
 )
@@ -57,6 +58,7 @@ set(HEADER_FILES
     include/type.h
     include/array_set.h
     include/hashmap.h
+    include/hashset.h
     include/vector_list.h
     include/vector_stack.h
 )
@@ -115,6 +117,8 @@ if (KTNLIBC_TESTS)
         test/main.c
         test/test_array_set.c
         test/test_hashmap.c
+        test/test_generic_hashmap.c
+        test/test_hashset.c
         test/test_vector_list.c
         test/test_vector_stack.c
     )

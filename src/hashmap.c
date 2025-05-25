@@ -3,13 +3,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct hashmap_t * hashmap_create(void)
+static void default_free_fn(const usize_t value)
+{}
+
+static usize_t default_copy_fn(const usize_t value)
+{
+    return value;
+}
+
+struct hashmap_t * hashmap_create(hashmap_free_func_t free_fn, hashmap_copy_func_t copy_fn)
 {
     struct hashmap_t *hashmap = (struct hashmap_t *)malloc(sizeof(struct hashmap_t));
 
     hashmap->size = 32;
     hashmap->buckets = (struct hashmap_entry_t **)malloc(sizeof(struct hashmap_entry_t *) * hashmap->size);
     memset(hashmap->buckets, 0, sizeof(struct hashmap_entry_t *) * hashmap->size);
+
+    hashmap->free_func = (NULL == free_fn) ? default_free_fn : free_fn;
+    hashmap->copy_func = (NULL == copy_fn) ? default_copy_fn : copy_fn;
 
     return hashmap;
 }
@@ -25,7 +36,7 @@ static usize_t hash(const char *key)
     return hash;
 }
 
-bool_t hashmap_put(struct hashmap_t *hashmap, const char *key, const char *value)
+bool_t hashmap_put(struct hashmap_t *hashmap, const char *key, const usize_t value)
 {
     if (NULL == hashmap) {
         return false;
@@ -36,8 +47,8 @@ bool_t hashmap_put(struct hashmap_t *hashmap, const char *key, const char *value
     
     while (NULL != current) {
         if (strcmp(current->key, key) == 0) {
-            free(current->value);
-            current->value = strdup(value);
+            hashmap->free_func(current->value);
+            current->value = hashmap->copy_func(value);
             return true;
         }
 
@@ -50,7 +61,7 @@ bool_t hashmap_put(struct hashmap_t *hashmap, const char *key, const char *value
     }
 
     new_entry->key = strdup(key);
-    new_entry->value = strdup(value);
+    new_entry->value = hashmap->copy_func(value);
 
     new_entry->next = hashmap->buckets[index];
     hashmap->buckets[index] = new_entry;
@@ -58,10 +69,10 @@ bool_t hashmap_put(struct hashmap_t *hashmap, const char *key, const char *value
     return true;
 }
 
-const char * hashmap_get(struct hashmap_t *hashmap, const char *key)
+const usize_t hashmap_get(struct hashmap_t *hashmap, const char *key, const usize_t _default)
 {
     if (NULL == hashmap) {
-        return NULL;
+        return _default;
     }
 
     usize_t index = hash(key) % hashmap->size;
@@ -75,7 +86,7 @@ const char * hashmap_get(struct hashmap_t *hashmap, const char *key)
         current = current->next;
     }
 
-    return NULL;
+    return _default;
 }
 
 bool_t hashmap_remove(struct hashmap_t *hashmap, const char *key)
@@ -97,7 +108,7 @@ bool_t hashmap_remove(struct hashmap_t *hashmap, const char *key)
             }
 
             free(current->key);
-            free(current->value);
+            hashmap->free_func(current->value);
             free(current);
             return true;
         }
@@ -122,7 +133,7 @@ bool_t hashmap_destroy(struct hashmap_t *hashmap)
             while (NULL != current) {
                 struct hashmap_entry_t *next = current->next;
                 free(current->key);
-                free(current->value);
+                hashmap->free_func(current->value);
                 free(current);
                 current = next;
             }
@@ -135,4 +146,16 @@ bool_t hashmap_destroy(struct hashmap_t *hashmap)
     free(hashmap);
 
     return true;
+}
+
+void hashmap_string_free(const usize_t value)
+{
+    char *str = (char *)value;
+    free(str);
+}
+
+usize_t hashmap_string_copy(const usize_t value)
+{
+    char *str = (char *)value;
+    return (usize_t)strdup(str);
 }
