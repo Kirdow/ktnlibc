@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 project(ktnlibc C
-    VERSION 1.0.4
+    VERSION 1.1
     DESCRIPTION "KTN C Library"
     LANGUAGES C
 )

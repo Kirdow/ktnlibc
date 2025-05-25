@@ -5,7 +5,7 @@ C library with shared code I tend to use across my C projects, released and made
 To use **ktnlibc**, assuming you use CMake, you should be able to just include it into your project's CMakeLists.txt file like this:
 ```cmake
 # Include the package
-set(KTNLIBC_VERSION 1.0.4)
+set(KTNLIBC_VERSION 1.1)
 include(FetchContent)
 FetchContent_Declare(
     ktnlibc
@@ -43,7 +43,13 @@ Includes 1 definiton header and 4 collection headers.
     - This is a wrapper of `vector_list.h` which implements your typical Stack functionality like `push`, `pop`, `peek`, `length`, `empty`etc.
 - **hashmap.h**
     - This is a dynamic map that uses a hashing function to store and look-up values efficiently and fast.
-    - Currently only support `char *` as both Key and Value. Data stored in `hashmap` is copied and owned by `hashmap`.
+    - Supports only `char *` as Key. Keys stored in `hashmap` are copied and owned by `hashmap`.
+    - Supports any types for as Value. Values stored in `hashmap` are copied and owned by `hashmap` using user-provided `free` and `copy` functions.
+        - If `hashmap` ownership isn't desired, simply make the provided function not copy nor free, or simply pass `NULL` functions and let `hashmap` omit the copy/free for you.
+    - Currently uses 32 buckets for storage.
+- **hashset.h**
+    - This is a dynamic set that uses a hashing function to store and look-up values efficiently and fast.
+    - Supports any types using user-provided `hash`, `free` and `cmp` functions.
     - Currently uses 32 buckets for storage.
 
 ## License
