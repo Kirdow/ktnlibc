@@ -5,7 +5,7 @@ C library with shared code I tend to use across my C projects, released and made
 To use **ktnlibc**, assuming you use CMake, you should be able to just include it into your project's CMakeLists.txt file like this:
 ```cmake
 # Include the package
-set(KTNLIBC_VERSION 1.1)
+set(KTNLIBC_VERSION 1.1.1)
 include(FetchContent)
 FetchContent_Declare(
     ktnlibc
