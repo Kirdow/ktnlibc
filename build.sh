@@ -61,7 +61,7 @@ fi
 
 ## Testing step
 if [ "$DO_TEST" = true ]; then
-    echo "] Testing CStack"
+    echo "] Testing ktnlibc"
     ./build/test_run $@
 fi
 

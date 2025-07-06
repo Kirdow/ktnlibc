@@ -4,7 +4,12 @@
 #include <stdint.h>
 
 typedef uint64_t usize_t;
-typedef int64_t ssize_t;
+
+#ifdef _WIN32
+    typedef int64_t ssize_t;
+#else
+    #include <sys/types.h>
+#endif
 
 typedef char bool_t;
 

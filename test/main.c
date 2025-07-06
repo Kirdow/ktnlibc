@@ -5,6 +5,7 @@
 #include "test_hashmap.h"
 #include "test_generic_hashmap.h"
 #include "test_hashset.h"
+#include "test_type.h"
 #include "type.h"
 
 #include <string.h>
@@ -63,6 +64,7 @@ int main()
     KTNLIBC_TEST(_test_hashmap);
     KTNLIBC_TEST(_test_generic_hashmap);
     KTNLIBC_TEST(_test_hashset);
+    KTNLIBC_TEST(_test_type);
 
     return result;
 }

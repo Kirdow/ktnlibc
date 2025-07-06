@@ -121,6 +121,7 @@ if (KTNLIBC_TESTS)
         test/test_hashset.c
         test/test_vector_list.c
         test/test_vector_stack.c
+        test/test_type.c
     )
 
     add_executable(test_run ${UNITY_SOURCES} ${TEST_SOURCES})
